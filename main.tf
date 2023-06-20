@@ -2,8 +2,6 @@ provider "aws" {
     region = var.aws_region
   }
 
-
- 
 resource "aws_security_group" "terraform_sg" {
   count=1
   name = var.sec_grp_name-${count.index}
