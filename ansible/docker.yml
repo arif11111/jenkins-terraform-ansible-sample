@@ -1,45 +1,37 @@
+# install docker playbook
 ---
-- name: Install Docker
+- name: "Install docker"
   hosts: all
   become: yes
-  
   tasks:
-    - name: Update apt cache
-      apt: update_cache=yes cache_valid_time=3600
+    - name: Update all packages
+      yum:
+        name: '*'
+        state: latest
+        update_only: yes
 
-    - name: Upgrade all apt packages
-      apt: upgrade=dist
-
-    - name: Install dependencies
-      apt:
+    - name: Ensure a list of yum packages are installed
+      yum:
         name: "{{ packages }}"
-        state: present
+        state: latest
         update_cache: yes
       vars:
         packages:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-        - gnupg-agent
-      
-    - name: Add an apt signing key for Docker
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
+        - python-pip
+        - yum-utils
+		    - docker
+        
+    - name: Enable Docker CE service at startup
+      service:
+        name: docker
+        state: started
+        enabled: yes
 
-    - name: Add apt repository for stable version
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
-        state: present
-
-    - name: Install Docker
-      apt:
+    - name: Ensure Python pip packages are installed
+      pip:
         name: "{{ packages }}"
-        state: present
-        update_cache: yes
       vars:
         packages:
-        - docker-ce
-        - docker-ce-cli 
-        - containerd.io
+        - boto
+        - boto3
+        - docker-compose

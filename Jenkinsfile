@@ -9,9 +9,6 @@ pipeline {
     stage('Init TF') {
       steps {
         sh '''
-          ls -al
-          sed -i "s|/home/dungpham/.aws/credentials|/root/.aws/credentials|g" main.tf
-          cat main.tf
           terraform init
         '''
       }
@@ -55,7 +52,7 @@ pipeline {
     stage('Wait EC2') {
       steps {
         sh '''
-          aws ec2 wait instance-status-ok --region ap-southeast-1 --instance-ids `$(terraform output -json ec2_id_test) | awk -F'"' '{print $2}'`
+          aws ec2 wait instance-status-ok --region us-east-1 --instance-ids `$(terraform output -json ec2_id_test) | awk -F'"' '{print $2}'`
         '''
       }
     }
