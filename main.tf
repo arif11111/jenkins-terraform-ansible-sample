@@ -59,7 +59,7 @@ resource "aws_instance" "project-iac" {
 
 
   vpc_security_group_ids = [
-    aws_security_group.terraform_sg[count.index]
+    aws_security_group.terraform_sg.id
   ]
   root_block_device {
     delete_on_termination = true
