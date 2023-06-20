@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_security_group" "terraform_sg" {
   count=1
-  name = var.sec_grp_name-${count.index}
+  name = var.sec_grp_name
   description = var.sec_grp_name
   vpc_id = var.aws_vpc_id
 
@@ -67,7 +67,7 @@ resource "aws_instance" "project-iac" {
     volume_type = "gp2"
   }
   tags = {
-    Name ="testserver-${count.index}"
+    Name ="testserver"
     OS = "UBUNTU"
     Managed = "IAC"
   }
