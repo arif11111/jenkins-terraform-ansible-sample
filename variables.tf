@@ -5,3 +5,4 @@ variable "subnet_cidrs" {}
 variable "vpc_cidr" {}
 variable "instance_type" {}
 variable "volume_size" {}
+variable "test-size"
